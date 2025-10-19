@@ -20,12 +20,12 @@ st.set_page_config(
 # Header
 st.title("💰 AI Cost Optimization Calculator")
 st.markdown("### Find 30-90% savings in your AI spending")
-st.markdown("**Analyze 50+ models across 8 providers** | Updated October 2025")
+st.markdown("**Analyse 50+ models across 8 providers** | Updated October 2025")
 
 # Quick stats
 col1, col2, col3 = st.columns(3)
 with col1:
-    st.metric("Models Analyzed", "50+")
+    st.metric("Models Analysed", "50+")
 with col2:
     st.metric("Average Savings", "67%")
 with col3:
@@ -103,7 +103,7 @@ with tab2:
     dev_tools_data = {}
     
     for tool in ['gitlab_duo', 'github_copilot', 'cursor', 'codeium']:
-        with st.expander(f"📝 {tool.replace('_', ' ').title()}"):
+        with st.expander(f"🔧 {tool.replace('_', ' ').title()}"):
             col1, col2, col3 = st.columns([2, 1, 1])
             
             with col1:
@@ -135,10 +135,10 @@ with tab2:
 with tab3:
     st.header("📊 Your AI Cost Analysis")
     
-    if st.button("🎯 Analyze All Spending", type="primary", use_container_width=True):
+    if st.button("🎯 Analyse All Spending", type="primary", use_container_width=True):
         st.session_state.analysis_done = True
         
-        with st.spinner("Analyzing..."):
+        with st.spinner("Analysing..."):
             all_recommendations = []
             
             if monthly_calls > 0:
@@ -167,12 +167,12 @@ with tab3:
             st.metric("Annual Savings", f"${summary['total_annual_savings']:,.0f}")
         with col4:
             optimized = summary['total_monthly_cost'] - summary['total_monthly_savings']
-            st.metric("Optimized Monthly", f"${optimized:,.0f}")
+            st.metric("Optimised Monthly", f"${optimized:,.0f}")
         
         # Chart
         fig = go.Figure(data=[
             go.Bar(name='Current', x=['Cost'], y=[summary['total_monthly_cost']], marker_color='#FF6B6B'),
-            go.Bar(name='Optimized', x=['Cost'], y=[optimized], marker_color='#4ECDC4')
+            go.Bar(name='Optimised', x=['Cost'], y=[optimized], marker_color='#4ECDC4')
         ])
         fig.update_layout(height=300, showlegend=True)
         st.plotly_chart(fig, use_container_width=True)
@@ -190,6 +190,128 @@ with tab3:
                 with col2:
                     st.metric("Monthly Savings", f"${rec['monthly_savings']:,.0f}")
                     st.metric("Annual Savings", f"${rec['annual_savings']:,.0f}")
+        
+        # Payment section - NEW CODE
+        st.divider()
+        st.header("📄 Get Your Detailed Implementation Report")
+        
+        # Create three columns for pricing options
+        col1, col2, col3 = st.columns([2, 2, 2])
+        
+        with col1:
+            st.subheader("📧 Free Summary")
+            st.markdown("**Perfect for:** Quick overview")
+            st.write("")
+            st.write("✅ Email summary of findings")
+            st.write("✅ Top 3 recommendations")
+            st.write("✅ Estimated savings")
+            st.write("")
+            
+            with st.form("email_capture"):
+                email = st.text_input("Work Email", placeholder="you@company.com")
+                company = st.text_input("Company Name", placeholder="Your Company")
+                role = st.selectbox("Your Role", [
+                    "Select...",
+                    "Engineering Lead",
+                    "CTO/VP Engineering", 
+                    "Product Manager",
+                    "Finance/Operations",
+                    "Founder/CEO",
+                    "Other"
+                ])
+                
+                submitted = st.form_submit_button("📨 Get Free Summary", use_container_width=True)
+                
+                if submitted:
+                    if email and company and role != "Select...":
+                        st.success(f"✅ Thanks! We'll send your summary to {email} within 24 hours.")
+                        st.info("💡 Check your email for the full report upgrade option.")
+                    else:
+                        st.error("Please fill in all fields")
+        
+        with col2:
+            st.subheader("📊 Basic Report")
+            st.markdown("**£79** ~~£299~~")
+            st.caption("Limited time offer")
+            st.write("")
+            st.write("✅ 15-page detailed PDF")
+            st.write("✅ Complete cost breakdown")
+            st.write("✅ All recommendations")
+            st.write("✅ Implementation roadmap")
+            st.write("✅ ROI calculator")
+            st.write("✅ Business case template")
+            st.write("")
+            st.write("📅 Delivered within 48 hours")
+            st.write("")
+            
+            st.markdown(
+                """
+                <a href="https://buy.stripe.com/eVq00cgT03sTgtS1Og3ks00" target="_blank">
+                    <button style="
+                        background-color: #4CAF50;
+                        color: white;
+                        padding: 12px 24px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        width: 100%;
+                        font-size: 16px;
+                        font-weight: bold;
+                    ">
+                        Buy Basic Report →
+                    </button>
+                </a>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        with col3:
+            st.subheader("💎 Premium + Call")
+            st.markdown("**£229** ~~£599~~")
+            st.caption("Best value")
+            st.write("")
+            st.write("✅ Everything in Basic")
+            st.write("✅ **30-min consultation**")
+            st.write("✅ Screen-sharing walkthrough")
+            st.write("✅ Custom prioritisation")
+            st.write("✅ Implementation Q&A")
+            st.write("✅ Call recording")
+            st.write("✅ 30 days email support")
+            st.write("")
+            st.write("📅 Report: 48hrs | Call: 5 days")
+            st.write("")
+            
+            st.markdown(
+                """
+                <a href="https://buy.stripe.com/14AaEQ1Y60gH5Pe3Wo3ks01" target="_blank">
+                    <button style="
+                        background-color: #FF6B35;
+                        color: white;
+                        padding: 12px 24px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        width: 100%;
+                        font-size: 16px;
+                        font-weight: bold;
+                    ">
+                        Buy Premium →
+                    </button>
+                </a>
+                """,
+                unsafe_allow_html=True
+            )
+        
+        st.divider()
+        
+        # Trust signals
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.caption(" Secure payment via Stripe")
+        with col2:
+            st.caption(" Delivered to your inbox")
+        with col3:
+            st.caption(" Money-back guarantee")
 
 # Footer
 st.divider()

@@ -191,7 +191,7 @@ with tab3:
                     st.metric("Monthly Savings", f"${rec['monthly_savings']:,.0f}")
                     st.metric("Annual Savings", f"${rec['annual_savings']:,.0f}")
         
-        # Payment section - NEW CODE
+        # Payment section with Formspree
         st.divider()
         st.header("📄 Get Your Detailed Implementation Report")
         
@@ -207,27 +207,45 @@ with tab3:
             st.write("✅ Estimated savings")
             st.write("")
             
-            with st.form("email_capture"):
-                email = st.text_input("Work Email", placeholder="you@company.com")
-                company = st.text_input("Company Name", placeholder="Your Company")
-                role = st.selectbox("Your Role", [
-                    "Select...",
-                    "Engineering Lead",
-                    "CTO/VP Engineering", 
-                    "Product Manager",
-                    "Finance/Operations",
-                    "Founder/CEO",
-                    "Other"
-                ])
+            monthly_cost = summary.get('total_monthly_cost', 0)
+            savings = summary.get('total_monthly_savings', 0)
+            
+            # Formspree form
+            st.markdown(f"""
+            <form action="https://formspree.io/f/mwprzpgz" method="POST" style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="email" name="email" placeholder="you@company.com" required 
+                       style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
                 
-                submitted = st.form_submit_button("📨 Get Free Summary", use_container_width=True)
+                <input type="text" name="company" placeholder="Your Company" required 
+                       style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
                 
-                if submitted:
-                    if email and company and role != "Select...":
-                        st.success(f"✅ Thanks! We'll send your summary to {email} within 24 hours.")
-                        st.info("💡 Check your email for the full report upgrade option.")
-                    else:
-                        st.error("Please fill in all fields")
+                <select name="role" required 
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
+                    <option value="">Select Role...</option>
+                    <option value="Engineering Lead">Engineering Lead</option>
+                    <option value="CTO/VP Engineering">CTO/VP Engineering</option>
+                    <option value="Product Manager">Product Manager</option>
+                    <option value="Finance/Operations">Finance/Operations</option>
+                    <option value="Founder/CEO">Founder/CEO</option>
+                    <option value="Other">Other</option>
+                </select>
+                
+                <input type="hidden" name="monthly_cost" value="${monthly_cost:,.2f}">
+                <input type="hidden" name="potential_savings" value="${savings:,.2f}">
+                <input type="hidden" name="_subject" value="New AI Cost Calculator Lead">
+                <input type="text" name="_gotcha" style="display:none">
+                
+                <button type="submit" 
+                        style="padding: 12px; background-color: #4CAF50; color: white; border: none; 
+                               border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%;">
+                    📨 Get Free Summary
+                </button>
+            </form>
+            
+            <p style="font-size: 12px; color: #666; margin-top: 10px; text-align: center;">
+                We'll email you within 24 hours
+            </p>
+            """, unsafe_allow_html=True)
         
         with col2:
             st.subheader("📊 Basic Report")

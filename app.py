@@ -1,6 +1,7 @@
 # app.py
 """Main Streamlit application"""
 import streamlit as st
+import streamlit.components.v1 as components
 import plotly.graph_objects as go
 from calculator import (
     calculate_api_cost, 
@@ -210,17 +211,17 @@ with tab3:
             monthly_cost = summary.get('total_monthly_cost', 0)
             savings = summary.get('total_monthly_savings', 0)
             
-            # Formspree form
-            st.markdown(f"""
+            # Formspree form using components.html
+            form_html = f"""
             <form action="https://formspree.io/f/mwprzpgz" method="POST" style="display: flex; flex-direction: column; gap: 10px;">
                 <input type="email" name="email" placeholder="you@company.com" required 
-                       style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
+                       style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%; box-sizing: border-box;">
                 
                 <input type="text" name="company" placeholder="Your Company" required 
-                       style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
+                       style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%; box-sizing: border-box;">
                 
                 <select name="role" required 
-                        style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%;">
+                        style="padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; width: 100%; box-sizing: border-box;">
                     <option value="">Select Role...</option>
                     <option value="Engineering Lead">Engineering Lead</option>
                     <option value="CTO/VP Engineering">CTO/VP Engineering</option>
@@ -245,7 +246,9 @@ with tab3:
             <p style="font-size: 12px; color: #666; margin-top: 10px; text-align: center;">
                 We'll email you within 24 hours
             </p>
-            """, unsafe_allow_html=True)
+            """
+            
+            components.html(form_html, height=350)
         
         with col2:
             st.subheader("📊 Basic Report")
